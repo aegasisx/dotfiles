@@ -1,14 +1,28 @@
-Fresh Desktop
-===
+## Fresh Desktop
+
 Fonts:
 ```
 ln -s ~/dotfiles/fonts ~/.fonts
 ```
 Install package:
 ```
-sudo apt install chromium-browser vim chrome-gnome-shell neofetch nmap curl wget apt-transport-https cmake
+sudo apt install chromium-browser vim chrome-gnome-shell neofetch nmap curl wget apt-transport-https cmake dconf-cli xclip
 ```
-##Shell
+Git:
+```
+git config --global user.email "nambn.jpit@gmail.com"
+git config --global user.name "nam"
+```
+
+## Shell
+
+### [Bash-it](https://github.com/Bash-it/bash-it)
+Install
+```
+git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
+~/.bash_it/install.sh
+```
+export PS1="\n┌─${white}[${white}\@${white}] ${bold_green}\u@${bold_blue}\h ${yellow}\w\n${reset_color}└─${red}$(scm_prompt_info)${yellow}${reset_color}\$ "
 ### Bash
 .bashrc config:
 ```
@@ -21,18 +35,38 @@ Install
 ```
 sudo apt intall zsh
 ```
-Set default shell
+Set default shell (optional)
 ```
 chsh -s /bin/zsh
 ```
-###[Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)
+### [Fzf](https://github.com/junegunn/fzf)
+```
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+```
+### [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)
 Install
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+echo 'ZSH_CUSTOM=~/dotfiles/custom_oh_my_zsh' >> ~/.zshrc
+echo 'plugins=(git z laravel fzf )' >> ~/.zshrc
+echo 'source $ZSH/oh-my-zsh.sh' >> ~/.zshrc
+touch ~/.zprofile
+echo 'source ~/.zshrc' >> ~/.zprofile
 ```
 
-Tmux
-===
+## Terminal
+
+### [Gogh](https://github.com/Mayccoll/Gogh)
+```
+sudo apt install dconf-cli
+bash -c  "$(wget -qO- https://git.io/vQgMr)"
+```
+Personal fav:
+02 08 10 19 21 30 51 58 60 65 71 74 80 85 103 115 119 122 124 151 158 169 171
+
+## Tmux
+
 Install tmux plugin manager:
 ```
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -45,13 +79,25 @@ Install plugin:
 ```
 C-b Shift-I
 ```
-Vim
-===
+Reload tmux:
 ```
-ln -s ~/dotfiles/vim ~/.vim
+tmux source-file ~/.tmux.conf
 ```
-Screensaver
-===
+Cheat sheet https://tmuxcheatsheet.com
+
+## Vim
+
+```
+ln -s ~/dotfiles/.vim ~/.vim
+```
+Plugin:
+```
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+## Screensaver
+
 Install cmatrix
 ```
 sudo apt install cmatrix

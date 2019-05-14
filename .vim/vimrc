@@ -1,0 +1,38 @@
+" Color scheme
+colorscheme kuroi
+set background=dark
+
+" Basic
+filetype indent on
+set cursorline
+set ttyfast
+set expandtab
+set hlsearch
+set ignorecase
+set incsearch
+set number
+set showcmd
+set showmatch
+set smartcase
+set softtabstop=4
+set tabstop=4
+syntax enable
+set wrap
+set laststatus=2
+set wildmenu
+set lazyredraw
+set foldenable
+set foldmethod=indent
+set autoread
+
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+" Call the .vimrc.plug file
+if filereadable(expand("~/.vim/plugin.vimrc"))
+    source ~/.vim/plugin.vimrc
+endif
