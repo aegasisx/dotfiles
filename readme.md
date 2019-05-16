@@ -48,9 +48,14 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 Install
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-echo 'ZSH_CUSTOM=~/dotfiles/custom_oh_my_zsh' >> ~/.zshrc
-echo 'plugins=(git z laravel fzf )' >> ~/.zshrc
-echo 'source $ZSH/oh-my-zsh.sh' >> ~/.zshrc
+```
+Symlink setting:
+```
+rm -r ~/.oh-my-zsh/custom
+ln -sfn ~/dotfiles/custom_oh_my_zsh ~/.oh-my-zsh/custom
+```
+Source from zprofile
+```
 touch ~/.zprofile
 echo 'source ~/.zshrc' >> ~/.zprofile
 ```

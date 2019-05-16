@@ -1,5 +1,11 @@
 ZSH_THEME="bira"
+plugins=(git z laravel fzf)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ "$TMUX" = "" ]; then tmux; fi
 
+
+# Alias
+alias cake='bin/cake'
 alias cdw='cd ~/workspace'
 
 # git alias
@@ -14,10 +20,9 @@ alias gbs='git-branch-status'
 alias gbc='git-branch-compare'
 
 # list
-alias ll='LC_COLLATE="C" ls -alhN --group-directories-first'
+alias ll='LC_COLLATE="C" ls -alh --group-directories-first'
 alias l='LC_COLLATE="C" ls -A --group-directories-first'
 
 # path
 alias path="sed 's/:/\n/g' <<< "$PATH""
 
-alias cake='bin/cake'
