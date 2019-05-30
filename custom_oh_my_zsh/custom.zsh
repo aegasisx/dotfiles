@@ -3,7 +3,6 @@ plugins=(git z laravel fzf)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ "$TMUX" = "" ]; then tmux; fi
 
-
 # Alias
 alias cake='bin/cake'
 alias cdw='cd ~/workspace'
