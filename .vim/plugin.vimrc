@@ -9,6 +9,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-eunuch'
 
 " Start screen
 Plug 'mhinz/vim-startify'
@@ -39,7 +40,6 @@ Plug 'airblade/vim-gitgutter'
 
 " Plug 'mattn/emmet-vim'
 " Plug 'terryma/vim-multiple-cursors'
-" Plug 'tpope/vim-eunuch'
 " Plug 'tpope/vim-surround'
 
 call plug#end()
