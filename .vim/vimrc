@@ -1,36 +1,42 @@
+" Change map leader to <Space>
+let mapleader =" "
+
 " Color scheme
 colorscheme kuroi
 set background=dark
 
+" Tab/Space
+set expandtab
+set softtabstop=4
+set tabstop=4
+
 " Basic
 filetype indent on
-set cursorline
-set ttyfast
-set expandtab
-set hlsearch
+set autoread " automatic reload file on changes outide vim
+set cursorline " Highlight current line
+set foldenable
+set foldmethod=indent
+set hlsearch " highlight seach term
 set ignorecase
 set incsearch
+set laststatus=2
+set lazyredraw
+set mouse=a
 set number
 set showcmd
 set showmatch
 set smartcase
-set softtabstop=4
-set tabstop=4
-syntax enable
-set wrap
-set laststatus=2
+set ttyfast
 set wildmenu
-set lazyredraw
-set foldenable
-set foldmethod=indent
-set autoread
+set wrap
+syntax enable
 
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
 
 " turn off search highlight
-nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader>n :nohlsearch<CR>
 
 " Call the .vimrc.plug file
 if filereadable(expand("~/.vim/plugin.vimrc"))

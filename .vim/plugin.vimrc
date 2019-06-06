@@ -7,11 +7,19 @@ Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
+Plug 'junegunn/vim-easy-align'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Start screen
 Plug 'mhinz/vim-startify'
-    " Remove cowsay
-    let g:startify_custom_header =[]
+    let g:startify_custom_header =[] " Remove cowsay
+
+
+" Workspace
+Plug 'thaerkh/vim-workspace'
+    let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+    let g:workspace_autosave_always = 1 " autosave on
+    let g:workspace_autosave_untrailspaces = 0 " no remove trailing space
 
 " Fuzzy search
 Plug 'junegunn/fzf'
