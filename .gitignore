@@ -2,6 +2,7 @@ fonts/.*
 .vim/plugged/*
 .vim/autoload/*
 .vim/sessions/*
+.vim/undo/*
 .vim/.netrwhist
 
 !**.gitkeep
