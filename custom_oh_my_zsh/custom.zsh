@@ -1,7 +1,7 @@
 ZSH_THEME="bira"
 plugins=(git z laravel fzf)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if [ "$TMUX" = "" ]; then tmux; fi
+# if [ "$TMUX" = "" ]; then tmux; fi
 
 # Alias
 alias cake='bin/cake'

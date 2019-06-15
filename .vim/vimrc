@@ -13,45 +13,111 @@ set tabstop=4
 " Basic
 filetype indent on
 let $FZF_DEFAULT_COMMAND = 'find -L -not -path "./.git/*"'
-let g:auto_save = 1  " enable AutoSave on Vim startup
 set autoread " automatic reload file on changes outide vim
 set cursorline " Highlight current line
 set foldenable
-set foldmethod=indent
+set foldmethod = indent
 set hidden
 set ignorecase
 set incsearch
-set laststatus=2
+set laststatus = 2
 set lazyredraw
 set linebreak
-set mouse=a
+set mouse = a
 set noshowmode
 set number
 set showcmd
 set showmatch
 set smartcase
 set ttyfast
-set undodir=~/.vim/undo     " where to save undo histories
 set undofile                " Save undo's after file closes
+set undodir=~/.vim/undo     " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 set wildmenu
 set wrap
 syntax enable
 
-" move vertically by visual line
+" Mapping
 nnoremap j gj
 nnoremap k gk
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+xnoremap <leader>p "_dP
+nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
+nnoremap <silent> <leader>q: q<CR>
+nnoremap <silent> <leader>w: bd<CR>
 
-" turn off search highlight
-nnoremap <leader>n :nohlsearch<CR>
+call plug#begin('~/.vim/plugged')
 
-" NERDtree map
-nnoremap <silent> <leader>e :NERDTreeFind<CR>
-nnoremap <silent> <leader>f :NERDTreeToggle<CR>
-nnoremap <silent> <C-p> :Files<CR>
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-fugitive' " git
+Plug 'ap/vim-buftabline' " manage buffer the sane way
+    let g:buftabline_numbers = 2 " ordinal number
+    let g:buftabline_indicators=1 " show [edited]
+    nnoremap <silent><F8> :bn<CR>
+    nnoremap <silent><F7> :bp<CR>
+    nmap <leader>1 <Plug>BufTabLine.Go(1)
+    nmap <leader>2 <Plug>BufTabLine.Go(2)
+    nmap <leader>3 <Plug>BufTabLine.Go(3)
+    nmap <leader>4 <Plug>BufTabLine.Go(4)
+    nmap <leader>5 <Plug>BufTabLine.Go(5)
+    nmap <leader>6 <Plug>BufTabLine.Go(6)
+    nmap <leader>7 <Plug>BufTabLine.Go(7)
+    nmap <leader>8 <Plug>BufTabLine.Go(8)
+    nmap <leader>9 <Plug>BufTabLine.Go(9)
+    nmap <leader>0 <Plug>BufTabLine.Go(10)
+Plug 'editorconfig/editorconfig-vim'    " .editorconfig
+Plug 'brooth/far.vim'                   " Find and replace
+    let g:far#window_layout = 'current'
+Plug 'thaerkh/vim-workspace' " Workspace
+    let g:workspace_undodir           = $HOME.'/.vim/undo'
+    let g:workspace_session_directory = $HOME.'/.vim/sessions/'
+    let g:workspace_autosave          = 0 " autosave off
+    let g:workspace_autosave_untrailspaces  = 0 " no remove trailing space
+    let g:workspace_session_disable_on_args = 1 " open a single file do not open workspace
+Plug 'airblade/vim-gitgutter' " gitgutter
+Plug 'mhinz/vim-startify' " start screen
+    let g:startify_custom_header = [] " Remove cowsay
+Plug 'scrooloose/nerdtree' " nerdtree
+    let NERDTreeShowHidden=1 " Display hidden files
+    nnoremap <silent> <leader>e: NERDTreeFind<CR>
+    nnoremap <silent> <leader>f: NERDTreeToggle<CR>
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug '907th/vim-auto-save' " Auto save
+    let g:auto_save = 1  " enable AutoSave on Vim startup
+    let g:auto_save_silent = 1  " do not display the auto-save notification
+Plug 'itchyny/lightline.vim'
+    let g:lightline = {
+        \ 'colorscheme': 'powerline',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste'  ],
+        \             [ 'readonly', 'fugitive', 'filename', 'modified' ] ]
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'LightlineFugitive'
+        \ }
+        \ }
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+    nnoremap <silent> <C-p> :Files<CR>
+Plug 'easymotion/vim-easymotion' " jump cussor around
+Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
 
-" Call the .vimrc.plug file
-if filereadable(expand("~/.vim/plugin.vimrc"))
-    source ~/.vim/plugin.vimrc
-endif
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-eunuch'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'ajh17/VimCompletesMe'
+
+function! LightlineFugitive()
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+        return fugitive#head()
+    else
+        return ''
+    endif
+endfunction
+
+call plug#end()
