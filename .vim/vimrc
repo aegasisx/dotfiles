@@ -1,5 +1,5 @@
 " Change map leader to <Space>
-let mapleader =" "
+let mapleader=" "
 
 " Color scheme
 colorscheme kuroi
@@ -16,14 +16,14 @@ let $FZF_DEFAULT_COMMAND = 'find -L -not -path "./.git/*"'
 set autoread " automatic reload file on changes outide vim
 set cursorline " Highlight current line
 set foldenable
-set foldmethod = indent
+set foldmethod=indent
 set hidden
 set ignorecase
 set incsearch
-set laststatus = 2
+set laststatus=2
 set lazyredraw
 set linebreak
-set mouse = a
+set mouse=a
 set noshowmode
 set number
 set showcmd
@@ -45,8 +45,8 @@ nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
-nnoremap <silent> <leader>q: q<CR>
-nnoremap <silent> <leader>w: bd<CR>
+nnoremap <silent> <leader>q :q<CR>
+nnoremap <silent> <leader>w :bd<CR>
 
 call plug#begin('~/.vim/plugged')
 
@@ -54,7 +54,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-fugitive' " git
 Plug 'ap/vim-buftabline' " manage buffer the sane way
     let g:buftabline_numbers = 2 " ordinal number
-    let g:buftabline_indicators=1 " show [edited]
+    let g:buftabline_indicators = 1 " show [edited]
     nnoremap <silent><F8> :bn<CR>
     nnoremap <silent><F7> :bp<CR>
     nmap <leader>1 <Plug>BufTabLine.Go(1)
@@ -81,8 +81,8 @@ Plug 'mhinz/vim-startify' " start screen
     let g:startify_custom_header = [] " Remove cowsay
 Plug 'scrooloose/nerdtree' " nerdtree
     let NERDTreeShowHidden=1 " Display hidden files
-    nnoremap <silent> <leader>e: NERDTreeFind<CR>
-    nnoremap <silent> <leader>f: NERDTreeToggle<CR>
+    nnoremap <silent> <leader>e :NERDTreeFind<CR>
+    nnoremap <silent> <leader>f :NERDTreeToggle<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug '907th/vim-auto-save' " Auto save
     let g:auto_save = 1  " enable AutoSave on Vim startup
