@@ -59,6 +59,9 @@ Source from zprofile
 touch ~/.zprofile
 echo 'source ~/.zshrc' >> ~/.zprofile
 ```
+Remove these lines in zshrc
+> plugins=(git)
+> ZSH_THEME="..."
 
 ## Terminal
 
@@ -87,6 +90,10 @@ C-b Shift-I
 Reload tmux:
 ```
 tmux source-file ~/.tmux.conf
+```
+Add following line to .zshrc to auto startup
+```
+if [ "$TMUX" = "" ]; then tmux; fi
 ```
 Cheat sheet https://tmuxcheatsheet.com
 
