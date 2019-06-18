@@ -4,5 +4,6 @@ fonts/.*
 .vim/sessions/*
 .vim/undo/*
 .vim/.netrwhist
+tmux/local.tmux.conf
 
 !**.gitkeep
