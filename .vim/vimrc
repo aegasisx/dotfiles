@@ -19,7 +19,7 @@ set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:�
 filetype indent on
 filetype plugin indent on " Indent helpers
 set noswapfile
-let $FZF_DEFAULT_COMMAND = 'find -L -not -path "./.git/*"'
+let $FZF_DEFAULT_COMMAND='find -L -not -path "./.git/*"'
 set autoread " automatic reload file on changes outide vim
 set cursorline " Highlight current line
 set foldenable
@@ -38,7 +38,7 @@ set showcmd
 set showmatch
 set smartcase
 set ttyfast
-set undofile                " Save undo's after file closes
+set undofile                " Save undo after file closes
 set undodir=~/.vim/undo     " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
@@ -56,6 +56,7 @@ nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>w :bd<CR>
 nnoremap <silent> <leader>l :set list!<CR>
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'tmux-plugins/vim-tmux-focus-events'
