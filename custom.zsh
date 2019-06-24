@@ -9,7 +9,7 @@ alias cdw='cd ~/workspace'
 
 # git alias
 alias gst='git status -sb'
-alias glo='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=short'
+alias glo='git --no-pager log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=short --max-count=10'
 alias gaa='git add -A'
 alias gcm='git commit -m'
 alias gca='git commit --amend'

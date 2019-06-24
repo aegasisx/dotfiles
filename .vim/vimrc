@@ -44,11 +44,19 @@ set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 set wildmenu " Turn on wildmenu
 set wrap
+set notimeout
+set ttimeout
 syntax enable
 
 " Mapping
 nnoremap j gj
 nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> g<Down>
+nnoremap <Up> g<Up>
+vnoremap <Down> g<Down>
+vnoremap <Up> g<Up>
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
@@ -64,8 +72,8 @@ Plug 'tpope/vim-fugitive' " git
 Plug 'ap/vim-buftabline' " manage buffer the sane way
     let g:buftabline_numbers = 2 " ordinal number
     let g:buftabline_indicators = 1 " show [edited]
-    nnoremap <silent><F8> :bn<CR>
-    nnoremap <silent><F7> :bp<CR>
+    nnoremap <silent><F4> :bn<CR>
+    nnoremap <silent><F3> :bp<CR>
     nmap <leader>1 <Plug>BufTabLine.Go(1)
     nmap <leader>2 <Plug>BufTabLine.Go(2)
     nmap <leader>3 <Plug>BufTabLine.Go(3)
@@ -132,7 +140,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'ajh17/VimCompletesMe'
+Plug 'ervandew/supertab'
+Plug 'farmergreg/vim-lastplace'
+Plug 'posva/vim-vue'
+Plug 'sheerun/vim-polyglot'
 
 function! LightlineFugitive()
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
