@@ -7,7 +7,6 @@ set background=dark
 
 " Tab/Space
 set expandtab
-set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 set smarttab
@@ -67,8 +66,11 @@ nnoremap <silent> <leader>l :set list!<CR>
 
 call plug#begin('~/.vim/plugged')
 
+
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'RRethy/vim-illuminate' " highlight current word
 Plug 'tpope/vim-fugitive' " git
+Plug 'idanarye/vim-merginal' " git plugin
 Plug 'ap/vim-buftabline' " manage buffer the sane way
     let g:buftabline_numbers = 2 " ordinal number
     let g:buftabline_indicators = 1 " show [edited]
@@ -97,9 +99,10 @@ Plug 'airblade/vim-gitgutter' " gitgutter
 Plug 'mhinz/vim-startify' " start screen
     let g:startify_custom_header = [] " Remove cowsay
 Plug 'scrooloose/nerdtree' " nerdtree
+Plug 'https://github.com/jistr/vim-nerdtree-tabs'
     let NERDTreeShowHidden=1 " Display hidden files
-    nnoremap <silent> <leader>e :NERDTreeFind<CR>
-    nnoremap <silent> <leader>f :NERDTreeToggle<CR>
+    nnoremap <silent> <leader>e :NERDTreeTabsFind<CR>
+    nnoremap <silent> <leader>f :NERDTreeTabsToggle<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug '907th/vim-auto-save' " Auto save
     let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -108,11 +111,15 @@ Plug 'itchyny/lightline.vim'
     let g:lightline = {
         \ 'colorscheme': 'powerline',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste'  ],
-        \             [ 'readonly', 'fugitive', 'filename', 'modified' ] ]
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'readonly', 'fugitive', 'filename', 'modified' ] ],
+        \   'right': [ [ 'lineinfo' ],
+        \              [ 'indent' ],
+        \              [ 'fileformat', 'fileencoding', 'filetype' ]  ]
         \ },
         \ 'component_function': {
-        \   'fugitive': 'LightlineFugitive'
+        \   'fugitive': 'LightlineFugitive',
+        \   'indent': 'LightlineIndent'
         \ }
         \ }
 Plug 'junegunn/fzf'
@@ -131,9 +138,7 @@ Plug 'junegunn/fzf.vim'
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 Plug 'easymotion/vim-easymotion' " jump cussor around
 Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
-Plug 'ciaranm/detectindent' " Auto detect indent level of tab and space
-    let g:detectindent_preferred_indent = 4
-
+Plug 'tpope/vim-sleuth' " Smart indent
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-easy-align'
@@ -142,7 +147,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ervandew/supertab'
 Plug 'farmergreg/vim-lastplace'
-Plug 'posva/vim-vue'
 Plug 'sheerun/vim-polyglot'
 
 function! LightlineFugitive()
@@ -151,6 +155,19 @@ function! LightlineFugitive()
     else
         return ''
     endif
+endfunction
+
+function! LightlineIndent()
+    let et = &et ==# 1 ? "space" : "tab"
+    return (et . ':'. &tabstop . ' (' . &shiftwidth . ')' )
+endfunction
+
+command! LightlineReload call LightlineReload()
+
+function! LightlineReload()
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
 endfunction
 
 call plug#end()
