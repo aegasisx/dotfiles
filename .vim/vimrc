@@ -2,7 +2,7 @@
 let mapleader=" "
 
 " Color scheme
-colorscheme kuroi
+color kuroi
 set background=dark
 
 " Tab/Space
@@ -19,9 +19,9 @@ filetype indent on
 filetype plugin indent on " Indent helpers
 set noswapfile
 let $FZF_DEFAULT_COMMAND='find -L -not -path "./.git/*"'
-set autoread " automatic reload file on changes outide vim
+set autoread " automatic read file when changed outide vim
 set cursorline " Highlight current line
-set foldenable
+set nofoldenable
 set foldmethod=indent
 set hidden
 set ignorecase
@@ -32,7 +32,7 @@ set lazyredraw
 set linebreak
 set mouse=a
 set noshowmode
-set relativenumber
+set number
 set showcmd
 set showmatch
 set smartcase
@@ -45,6 +45,7 @@ set wildmenu " Turn on wildmenu
 set wrap
 set notimeout
 set ttimeout
+set clipboard=unnamedplus
 syntax enable
 
 " Mapping
@@ -66,15 +67,20 @@ nnoremap <silent> <leader>l :set list!<CR>
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'RRethy/vim-illuminate' " highlight current word
-Plug 'tpope/vim-fugitive' " git
-Plug 'idanarye/vim-merginal' " git plugin
+"""""" File Browser
+Plug 'scrooloose/nerdtree' " nerdtree
+    let NERDTreeShowHidden=1 " Display hidden files
+    nnoremap <silent> <leader>e :NERDTreeFind<CR>
+    nnoremap <silent> <F4> :NERDTreeToggle<CR>
+Plug 'Xuyuanp/nerdtree-git-plugin'
+    let g:NERDTreeShowIgnoredStatus = 1
+
+"""""" Window Layout
 Plug 'ap/vim-buftabline' " manage buffer the sane way
     let g:buftabline_numbers = 2 " ordinal number
     let g:buftabline_indicators = 1 " show [edited]
-    nnoremap <silent><F4> :bn<CR>
-    nnoremap <silent><F3> :bp<CR>
+    nnoremap <silent><F5> :bp<CR>
+    nnoremap <silent><F6> :bn<CR>
     nmap <leader>1 <Plug>BufTabLine.Go(1)
     nmap <leader>2 <Plug>BufTabLine.Go(2)
     nmap <leader>3 <Plug>BufTabLine.Go(3)
@@ -85,29 +91,8 @@ Plug 'ap/vim-buftabline' " manage buffer the sane way
     nmap <leader>8 <Plug>BufTabLine.Go(8)
     nmap <leader>9 <Plug>BufTabLine.Go(9)
     nmap <leader>0 <Plug>BufTabLine.Go(10)
-Plug 'editorconfig/editorconfig-vim'    " .editorconfig
-Plug 'brooth/far.vim'                   " Find and replace
-    let g:far#window_layout = 'current'
-Plug 'thaerkh/vim-workspace' " Workspace
-    let g:workspace_undodir           = $HOME.'/.vim/undo'
-    let g:workspace_session_directory = $HOME.'/.vim/sessions/'
-    let g:workspace_autosave          = 0 " autosave off
-    let g:workspace_autosave_untrailspaces  = 0 " no remove trailing space
-    let g:workspace_session_disable_on_args = 1 " open a single file do not open workspace
-Plug 'airblade/vim-gitgutter' " gitgutter
-Plug 'mhinz/vim-startify' " start screen
-    let g:startify_custom_header = [] " Remove cowsay
-Plug 'scrooloose/nerdtree' " nerdtree
-Plug 'jistr/vim-nerdtree-tabs'
-    let NERDTreeShowHidden=1 " Display hidden files
-    nnoremap <silent> <leader>e :NERDTreeTabsFind<CR>
-    nnoremap <silent> <leader>f :NERDTreeTabsToggle<CR>
-Plug 'Xuyuanp/nerdtree-git-plugin'
-    let g:NERDTreeShowIgnoredStatus = 1
-Plug '907th/vim-auto-save' " Auto save
-    let g:auto_save = 1  " enable AutoSave on Vim startup
-    let g:auto_save_silent = 1  " do not display the auto-save notification
 Plug 'itchyny/lightline.vim'
+    command! LightlineReload call LightlineReload()
     let g:lightline = {
         \ 'colorscheme': 'powerline',
         \ 'active': {
@@ -123,54 +108,6 @@ Plug 'itchyny/lightline.vim'
         \   'lineinfo': 'LightlineLineInfo'
         \ }
         \ }
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-    nnoremap <silent> <C-p> :Files<CR>
-    nnoremap <F1> :Commands<CR>
-    nnoremap <F2> :Search<space>
-    " :Ag  - Start fzf with hidden preview window that can be enabled with ? key
-    " :Ag! - Start fzf in fullscreen and display the preview window above
-    command! -bang -nargs=* Ag
-        \ call fzf#vim#ag(<q-args>,
-        \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-        \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \                 <bang>0)
-    " :Agr - Take argument to specify directory
-    command! -bang -nargs=+ Search
-        \ call fzf#vim#ag_raw('--hidden ' .<q-args>,
-        \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-        \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \                 <bang>0)
-    " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-    command! -bang -nargs=* Rg
-        \ call fzf#vim#grep(
-        \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1,
-        \   <bang>0 ? fzf#vim#with_preview('up:60%')
-        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \   <bang>0)
-    " Mapping selecting mappings
-    nmap <leader><tab> <plug>(fzf-maps-n)
-    xmap <leader><tab> <plug>(fzf-maps-x)
-    omap <leader><tab> <plug>(fzf-maps-o)
-    " :Files command with preview window
-    command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-Plug 'easymotion/vim-easymotion' " jump cussor around
-Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
-Plug 'tpope/vim-sleuth' " Smart indent
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-unimpaired'
-Plug 'junegunn/vim-easy-align'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-eunuch'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'ervandew/supertab'
-Plug 'farmergreg/vim-lastplace'
-Plug 'sheerun/vim-polyglot'
-Plug 'ryanoasis/vim-devicons'
-    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-    let g:DevIconsEnableFoldersOpenClose = 1
-
 function! LightlineFugitive()
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
         return fugitive#head()
@@ -188,12 +125,98 @@ function! LightlineLineInfo()
     return line('.') . ':' . col('.') . ' of ' . line('$')
 endfunction
 
-command! LightlineReload call LightlineReload()
-
 function! LightlineReload()
     call lightline#init()
     call lightline#colorscheme()
     call lightline#update()
 endfunction
+
+"""""" Jumping around
+Plug 'easymotion/vim-easymotion' " jump cussor around
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'brooth/far.vim'                   " Find and replace
+    let g:far#window_layout = 'current'
+
+    nnoremap <silent> <C-p> :Files<CR>
+    nnoremap <F1> :Commands<CR>
+    nnoremap <F2> :Search!<space>
+
+    " :Ag  - Start fzf with hidden preview window that can be enabled with ? key
+    " :Ag! - Start fzf in fullscreen and display the preview window above
+    command! -bang -nargs=* Ag
+        \ call fzf#vim#ag(<q-args>,
+        \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+        \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \                 <bang>0)
+
+    " :Agr - Take argument to specify directory
+    command! -bang -nargs=+ Search
+        \ call fzf#vim#ag_raw('--hidden ' .<q-args>,
+        \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+        \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \                 <bang>0)
+
+    " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+    command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1,
+        \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \   <bang>0)
+
+    " Mapping selecting mappings
+    nmap <leader><tab> <plug>(fzf-maps-n)
+    xmap <leader><tab> <plug>(fzf-maps-x)
+    omap <leader><tab> <plug>(fzf-maps-o)
+
+    " :Files command with preview window
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+"""""" Git Integrate
+Plug 'tpope/vim-fugitive' " git
+Plug 'junegunn/gv.vim'
+Plug 'idanarye/vim-merginal' " git branch
+Plug 'airblade/vim-gitgutter' " gitgutter
+
+"""""" Workspace
+Plug '907th/vim-auto-save' " Auto save
+    let g:auto_save = 1  " enable AutoSave on Vim startup
+    let g:auto_save_silent = 1  " do not display the auto-save notification
+Plug 'editorconfig/editorconfig-vim' " .editorconfig
+Plug 'thaerkh/vim-workspace' " Workspace
+    let g:workspace_undodir           = $HOME.'/.vim/undo'
+    let g:workspace_session_directory = $HOME.'/.vim/sessions/'
+    let g:workspace_autosave          = 0 " autosave off
+    let g:workspace_autosave_untrailspaces  = 0 " no remove trailing space
+    let g:workspace_session_disable_on_args = 1 " open a single file do not open workspace
+Plug 'mhinz/vim-startify' " start screen
+    let g:startify_custom_header = [] " Remove cowsay
+
+"""""" Languages
+Plug 'sheerun/vim-polyglot'
+
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'RRethy/vim-illuminate' " highlight current word
+Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
+Plug 'tpope/vim-sleuth' " Smart indent
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-eunuch'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'ervandew/supertab'
+Plug 'farmergreg/vim-lastplace'
+Plug 'ryanoasis/vim-devicons'
+    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+    let g:DevIconsEnableFoldersOpenClose = 1
+Plug 'kshenoy/vim-signature'
+Plug 'ludovicchabant/vim-gutentags'
+    let g:gutentags_cache_dir = $HOME.'/.vim/plugged'
+Plug 'Yggdroot/indentLine'
+Plug 'majutsushi/tagbar'
+    nmap <F3> :TagbarToggle<CR>
 
 call plug#end()
