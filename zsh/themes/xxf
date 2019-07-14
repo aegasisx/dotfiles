@@ -1,0 +1,37 @@
+# Machine name.
+function box_name {
+    [ -f ~/.box-name ] && cat ~/.box-name || echo $HOST
+}
+
+# Directory info.
+local current_dir='${PWD/#$HOME/~}'
+
+# Git info.
+local git_branch='$(git_prompt_info)'
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[white]%}on %{$fg[magenta]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_DIRTY=" ✗"
+ZSH_THEME_GIT_PROMPT_CLEAN=" ✔︎"
+
+PROMPT="
+%{$fg[cyan]%}%n \
+%{$fg[white]%}at \
+%{$fg[green]%}$(box_name) \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%} \
+${git_branch}
+%{$fg[red]%}%* \
+%{$terminfo[bold]$fg[white]%}› %{$reset_color%}"
+
+if [[ "$USER" == "root" ]]; then
+PROMPT="
+%{$fg[red]%}%* \
+%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+%{$bg[yellow]%}%{$fg[cyan]%}%n%{$reset_color%} \
+%{$fg[white]%}at \
+%{$fg[green]%}$(box_name) \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}[${current_dir}]%{$reset_color%}\
+${git_info}
+%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
+fi
