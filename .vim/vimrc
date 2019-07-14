@@ -18,37 +18,38 @@ nnoremap <silent> <leader>l :set list!<CR>
 " Basic
 filetype indent on
 filetype plugin indent on " Indent helpers
-set noswapfile
 let $FZF_DEFAULT_COMMAND='find -L -not -path "./.git/*"'
+let @/ = ""
 set autoread " automatic read file when changed outide vim
+set clipboard=unnamedplus
 set cursorline " Highlight current line
-set nofoldenable
 set foldmethod=indent
+set helpheight=99999
 set hidden
+set hlsearch
 set ignorecase
 set incsearch
-set hlsearch
 set laststatus=2
 set lazyredraw
 set linebreak
 set mouse=a
+set nofoldenable
 set noshowmode
+set noswapfile
+set notimeout
 set relativenumber
 set showcmd
 set showmatch
 set smartcase
+set ttimeout
 set ttyfast
-set undofile                " Save undo after file closes
 set undodir=~/.vim/undo     " where to save undo histories
+set undofile                " Save undo after file closes
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 set wildmenu " Turn on wildmenu
 set wrap
-set notimeout
-set ttimeout
-set clipboard=unnamedplus
 syntax enable
-set helpheight=99999
 
 " Mapping
 nnoremap j gj
@@ -66,6 +67,7 @@ nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>Q :qa!<CR>
 nnoremap <silent> <leader>w :bd<CR>
+nnoremap * *``
 
 call plug#begin('~/.vim/plugged')
 
@@ -128,6 +130,7 @@ Plug 'itchyny/lightline.vim'
         \   'lineinfo': 'LightlineLineInfo'
         \ }
         \ }
+
 function! LightlineFugitive()
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
         return fugitive#head()
