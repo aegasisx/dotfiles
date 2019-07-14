@@ -13,6 +13,7 @@ set smarttab
 
 " Set list char
 set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
+nnoremap <silent> <leader>l :set list!<CR>
 
 " Basic
 filetype indent on
@@ -32,7 +33,7 @@ set lazyredraw
 set linebreak
 set mouse=a
 set noshowmode
-set number
+set relativenumber
 set showcmd
 set showmatch
 set smartcase
@@ -47,6 +48,7 @@ set notimeout
 set ttimeout
 set clipboard=unnamedplus
 syntax enable
+set helpheight=99999
 
 " Mapping
 nnoremap j gj
@@ -64,7 +66,6 @@ nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>Q :qa!<CR>
 nnoremap <silent> <leader>w :bd<CR>
-nnoremap <silent> <leader>l :set list!<CR>
 
 call plug#begin('~/.vim/plugged')
 
@@ -73,8 +74,18 @@ Plug 'scrooloose/nerdtree' " nerdtree
     let NERDTreeShowHidden = 1 " Display hidden files
     nnoremap <silent> <leader>e :NERDTreeFind<CR>
     nnoremap <silent> <F2> :NERDTreeToggle<CR>
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin' " git in nerdtree
     let g:NERDTreeShowIgnoredStatus = 1
+Plug 'ryanoasis/vim-devicons' " Icon
+    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+    let g:DevIconsEnableFoldersOpenClose = 1
+
+"""""" Tags management
+Plug 'ludovicchabant/vim-gutentags'
+    let g:gutentags_cache_dir = $HOME.'/.vim/tags'
+    let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
+Plug 'majutsushi/tagbar'
+    nmap <F6> :TagbarToggle<CR>
 
 """""" Window Layout
 Plug 'ap/vim-buftabline' " manage buffer the sane way
@@ -91,6 +102,8 @@ Plug 'ap/vim-buftabline' " manage buffer the sane way
     nmap <leader>9 <Plug>BufTabLine.Go(9)
     nmap <leader>0 <Plug>BufTabLine.Go(10)
 Plug 'fholgado/minibufexpl.vim'
+    nnoremap <silent> <F4> :MBEToggle<CR>
+    let g:miniBufExplorerAutoStart = 0
     let g:miniBufExplUseSingleClick = 1
     let g:miniBufExplBuffersNeeded = 1
     let g:miniBufExplCycleArround = 1
@@ -138,13 +151,11 @@ function! LightlineReload()
     call lightline#update()
 endfunction
 
-"""""" Jumping around
-Plug 'easymotion/vim-easymotion' " jump cussor around
+"""""" Find and Replace
+Plug 'brooth/far.vim' " Find and replace
+    let g:far#window_layout = 'current'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'brooth/far.vim'                   " Find and replace
-    let g:far#window_layout = 'current'
-
     nnoremap <silent> <C-p> :Files<CR>
     nnoremap <F1> :Commands<CR>
     nnoremap <F3> :Search!<space>
@@ -209,25 +220,21 @@ Plug 'editorconfig/editorconfig-vim' " .editorconfig
 """""" Languages
 Plug 'sheerun/vim-polyglot'
 
+"""""" Autocompele
+Plug 'ervandew/supertab'
+
+"""""" I dont know what this is but seem important
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'RRethy/vim-illuminate' " highlight current word
+
+"""""" Utinity
+Plug 'easymotion/vim-easymotion' " jump cussor around
 Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
 Plug 'tpope/vim-sleuth' " Smart indent
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired' " Next and previous
 Plug 'junegunn/vim-easy-align'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-eunuch'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'ervandew/supertab'
+Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
+Plug 'tpope/vim-eunuch' " Unix commnands in vim
 Plug 'farmergreg/vim-lastplace'
-Plug 'ryanoasis/vim-devicons'
-    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-    let g:DevIconsEnableFoldersOpenClose = 1
-Plug 'ludovicchabant/vim-gutentags'
-    let g:gutentags_cache_dir = $HOME.'/.vim/tags'
-    let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
-Plug 'majutsushi/tagbar'
-    nmap <F6> :TagbarToggle<CR>
 
 call plug#end()
