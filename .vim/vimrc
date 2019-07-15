@@ -37,6 +37,7 @@ set nofoldenable
 set noshowmode
 set noswapfile
 set notimeout
+set number
 set relativenumber
 set showcmd
 set showmatch
@@ -49,6 +50,7 @@ set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 set wildmenu " Turn on wildmenu
 set wrap
+set scrolloff=999
 syntax enable
 
 " Mapping
@@ -56,6 +58,10 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
+nnoremap <leader>j :call comfortable_motion#flick(200)<CR>
+nnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
+vnoremap <leader>j :call comfortable_motion#flick(200)<CR>
+vnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
 nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
 vnoremap <Down> g<Down>
@@ -239,5 +245,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
 Plug 'tpope/vim-eunuch' " Unix commnands in vim
 Plug 'farmergreg/vim-lastplace'
+Plug 'yuttie/comfortable-motion.vim'
 
 call plug#end()
