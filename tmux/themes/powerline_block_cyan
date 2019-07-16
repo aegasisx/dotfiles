@@ -8,28 +8,44 @@
 # https://github.com/Lokaltog/powerline-fonts
 #
 
+set -g @sysstat_cpu_view_tmpl '#[fg=#{cpu.color3}]CPU: #[fg=#{cpu.color},bg=#{cpu.color2}]#{cpu.pused}#[fg=colour16,bg=colour87]'
+set -g @sysstat_mem_view_tmpl '#[fg=#{mem.color3}]MEM: #[fg=#{mem.color},bg=#{mem.color2}]#{mem.pused}#[fg=colour16,bg=colour87]#[fg=#{mem.color3}] /#{mem.total}#[fg=colour16,bg=colour87]'
+
+set -g @sysstat_cpu_color_low "colour28 colour87 colour16"
+set -g @sysstat_cpu_color_medium "colour196 colour87 colour16"
+set -g @sysstat_cpu_color_stress "white,bold colour196 colour196"
+set -g @sysstat_mem_color_low "colour28 colour87 colour16"
+set -g @sysstat_mem_color_medium "colour196 colour87 colour16"
+set -g @sysstat_mem_color_stress "white,bold colour196 colour196"
+
+set -g @sysstat_cpu_medium_threshold "30"
+set -g @sysstat_cpu_stress_threshold "80"
+
+set -g @sysstat_mem_medium_threshold "75"
+set -g @sysstat_mem_stress_threshold "90"
+
 # Status update interval
 set -g status-interval 1
 
 # Basic status bar colors
-set -g status-style fg=colour240,bg=colour233
+set -g status-style fg=colour240,bg=colour254
 
 # Left side of status bar
 set -g status-left-style bg=colour233,fg=colour243
 set -g status-left-length 40
-set -g status-left "#[fg=colour232,bg=colour39,bold] #S #[fg=colour39,bg=colour240,nobold]#[fg=colour233,bg=colour240] #(whoami) #[fg=colour240,bg=colour235]#[fg=colour240,bg=colour235] #I:#P #[fg=colour235,bg=colour233,nobold]"
+set -g status-left "#[fg=colour16,bg=colour75,bold] #(whoami) #[fg=colour75,bg=colour81,nobold]#[fg=colour16,bg=colour81] #H #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour87] #S:#I:#P #[fg=colour87,bg=colour254,nobold]"
 
 # Right side of status bar
 set -g status-right-style bg=colour233,fg=colour243
 set -g status-right-length 150
-set -g status-right "#[fg=colour235,bg=colour233]#[fg=colour240,bg=colour235] %H:%M:%S #[fg=colour240,bg=colour235]#[fg=colour233,bg=colour240] %d-%b-%y #[fg=colour245,bg=colour240]#[fg=colour232,bg=colour245,bold] #H "
+set -g status-right "#[fg=colour87,bg=colour254,nobold]#[fg=colour16,bg=colour87,bold] #{sysstat_cpu} | #{sysstat_mem} #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour81,bold] %H:%M:%S #(TZ) #[fg=colour75,bg=colour45]#[fg=colour16,bg=colour75,bold] %Y-%m-%d "
 
 # Window status
-set -g window-status-format " #I:#W#F "
-set -g window-status-current-format " #I:#W#F "
+set -g window-status-format "#[fg=colour16,bg=colour87] #I:#W#F "
+set -g window-status-current-format "#[fg=colour16,bg=colour75] #I:#W#F "
 
 # Current window status
-set -g window-status-current-style bg=colour39,fg=colour232
+set -g window-status-current-style bg=colour75,fg=colour232
 
 # Window with activity status
 set -g window-status-activity-style bg=colour233,fg=colour75
@@ -55,7 +71,7 @@ set -g clock-mode-colour colour39
 set -g clock-mode-style 24
 
 # Message
-set -g message-style bg=colour39,fg=black
+set -g message-style fg=colour16,bg=colour87
 
 # Command message
 set -g message-command-style bg=colour233,fg=black
