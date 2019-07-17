@@ -33,16 +33,16 @@ set -g status-style fg=colour240,bg=colour254
 # Left side of status bar
 set -g status-left-style bg=colour233,fg=colour243
 set -g status-left-length 40
-set -g status-left "#[fg=colour16,bg=colour75,bold] #(whoami) #[fg=colour75,bg=colour81,nobold]#[fg=colour16,bg=colour81] #H #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour87] #S:#I:#P #[fg=colour87,bg=colour254,nobold]"
+set -g status-left "#[fg=colour16,bg=colour75,bold] #(whoami) #[fg=colour75,bg=colour81,nobold]#[fg=colour16,bg=colour81,bold] #H #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour87,bold] #S:#I:#P #[fg=colour87,bg=colour254,nobold]"
 
 # Right side of status bar
 set -g status-right-style bg=colour233,fg=colour243
-set -g status-right-length 150
-set -g status-right "#[fg=colour87,bg=colour254,nobold]#[fg=colour16,bg=colour87,bold] #{sysstat_cpu} | #{sysstat_mem} #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour81,bold] %H:%M:%S #(TZ) #[fg=colour75,bg=colour45]#[fg=colour16,bg=colour75,bold] %Y-%m-%d "
+set -g status-right-length 80
+set -g status-right "#[fg=colour87,bg=colour254,nobold]#[fg=colour16,bg=colour87,bold] #{sysstat_cpu} | #{sysstat_mem} | #{sysstat_loadavg} #[fg=colour81,bg=colour87,nobold]#[fg=colour16,bg=colour81,bold] %H:%M:%S #[fg=colour75,bg=colour45]#[fg=colour16,bg=colour75,bold] %Y-%m-%d "
 
 # Window status
 set -g window-status-format "#[fg=colour16,bg=colour87] #I:#W#F "
-set -g window-status-current-format "#[fg=colour16,bg=colour75] #I:#W#F "
+set -g window-status-current-format "#[fg=colour16,bg=colour75,bold] #I:#W#F "
 
 # Current window status
 set -g window-status-current-style bg=colour75,fg=colour232
