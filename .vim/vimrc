@@ -2,7 +2,7 @@
 let mapleader=" "
 
 " Color scheme
-color kuroi
+color hackerman
 set background=dark
 
 " Tab/Space
@@ -58,10 +58,6 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
-nnoremap <leader>j :call comfortable_motion#flick(150)<CR>
-nnoremap <leader>k :call comfortable_motion#flick(-150)<CR>
-vnoremap <leader>j :call comfortable_motion#flick(150)<CR>
-vnoremap <leader>k :call comfortable_motion#flick(-150)<CR>
 nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
 vnoremap <Down> g<Down>
@@ -77,9 +73,12 @@ nnoremap * *``
 
 call plug#begin('~/.vim/plugged')
 
-"""""" File Browser
+"
+" File Browser
+"
 Plug 'scrooloose/nerdtree' " nerdtree
     let NERDTreeShowHidden = 1 " Display hidden files
+    let NERDTreeMinimalUI=1 " Remove help at top
     nnoremap <silent> <leader>e :NERDTreeFind<CR>
     nnoremap <silent> <F2> :NERDTreeToggle<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin' " git in nerdtree
@@ -88,14 +87,20 @@ Plug 'ryanoasis/vim-devicons' " Icon
     let g:WebDevIconsUnicodeDecorateFolderNodes = 1
     let g:DevIconsEnableFoldersOpenClose = 1
 
-"""""" Tags management
+"
+" Tags management
+"
 Plug 'ludovicchabant/vim-gutentags'
     let g:gutentags_cache_dir = $HOME.'/.vim/tags'
-    let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
+    let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*", ".idea", ".vscode"]
 Plug 'majutsushi/tagbar'
+    let g:tagbar_compact = 1
     nmap <F6> :TagbarToggle<CR>
+Plug 'ervandew/supertab'
 
-"""""" Window Layout
+"
+" Window Layout
+"
 Plug 'ap/vim-buftabline' " manage buffer the sane way
     let g:buftabline_numbers = 2 " ordinal number
     let g:buftabline_indicators = 1 " show [edited]
@@ -160,7 +165,9 @@ function! LightlineReload()
     call lightline#update()
 endfunction
 
-"""""" Find and Replace
+"
+" Find and Replace
+"
 Plug 'brooth/far.vim' " Find and replace
     let g:far#window_layout = 'current'
 Plug 'junegunn/fzf'
@@ -203,14 +210,18 @@ Plug 'junegunn/fzf.vim'
     command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-"""""" Git Integrate
+"
+" Git Integrate
+"
 Plug 'tpope/vim-fugitive' " git
     nnoremap <leader>g :Gstatus<CR><C-w>o
 Plug 'junegunn/gv.vim'
 Plug 'idanarye/vim-merginal' " git branch
 Plug 'airblade/vim-gitgutter' " gitgutter
 
-"""""" Workspace manager
+"
+" Workspace manager
+"
 Plug 'mhinz/vim-startify' " start screen, create workspace with :SS
     let g:startify_custom_header = [] " Remove cowsay
     let g:startify_session_persistence = 1
@@ -226,32 +237,92 @@ Plug '907th/vim-auto-save' " Auto save
     let g:auto_save_silent = 1  " do not display the auto-save notification
 Plug 'editorconfig/editorconfig-vim' " .editorconfig
 
-"""""" Languages
+"
+" Languages
+"
 Plug 'sheerun/vim-polyglot'
 
-"""""" Autocompele
-Plug 'ervandew/supertab'
-
-"""""" I dont know what this is but seem important
+"
+" 'I dont know what this is but seem important'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-"""""" Utinity
-Plug 'easymotion/vim-easymotion' " jump cussor around
-Plug 'tpope/vim-surround' " Add quote, bracket & tag easily
+"
+" Tools
+"
 Plug 'tpope/vim-sleuth' " Smart indent
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-unimpaired' " Next and previous
+Plug 'jiangmiao/auto-pairs' " Auto add closing bracket
+Plug 'tpope/vim-surround' " Add/change/delete quote, bracket & tag easily
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
 Plug 'tpope/vim-eunuch' " Unix commnands in vim
-Plug 'farmergreg/vim-lastplace'
-Plug 'yuttie/comfortable-motion.vim'
-Plug 'vim-vdebug/vdebug', { 'tag': 'v1.5.2' }
 Plug 'AndrewRadev/splitjoin.vim' " gS split gJ join
-Plug 'kana/vim-textobj-user'
-Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
+Plug 'easymotion/vim-easymotion' " jump cussor around
+Plug 'tpope/vim-unimpaired' " Next and previous
 Plug 'tpope/vim-repeat' " . work with vim-surround
 Plug 'wellle/targets.vim' " delete/change next \' \" \, \{ \].....
-Plug 'drmikehenry/vim-extline'
+Plug 'kana/vim-textobj-user' " Julian/vim-textobj-variable-segment dependecy
+Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
+
+"
+" Utinity
+"
+Plug 'farmergreg/vim-lastplace'
+Plug 'yuttie/comfortable-motion.vim'
+    let g:comfortable_motion_friction = 0.0
+    let g:comfortable_motion_air_drag = 4.5
+    nnoremap <leader>j :call comfortable_motion#flick(200)<CR>
+    nnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
+    vnoremap <leader>j :call comfortable_motion#flick(200)<CR>
+    vnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
+
+command! -nargs=? -complete=buffer -bang CloseOtherBuffers
+    \ :call CloseOtherBuffers('<args>', '<bang>')
+
+function! CloseOtherBuffers(buffer, bang)
+	if a:buffer == ''
+		" No buffer provided, use the current buffer.
+		let buffer = bufnr('%')
+	elseif (a:buffer + 0) > 0
+		" A buffer number was provided.
+		let buffer = bufnr(a:buffer + 0)
+	else
+		" A buffer name was provided.
+		let buffer = bufnr(a:buffer)
+	endif
+
+	if buffer == -1
+		echohl ErrorMsg
+		echomsg "No matching buffer for" a:buffer
+		echohl None
+		return
+	endif
+
+	let last_buffer = bufnr('$')
+
+	let delete_count = 0
+	let n = 1
+	while n <= last_buffer
+		if n != buffer && buflisted(n)
+			if a:bang == '' && getbufvar(n, '&modified')
+				echohl ErrorMsg
+				echomsg 'No write since last change for buffer'
+							\ n '(add ! to override)'
+				echohl None
+			else
+				silent exe 'bdel' . a:bang . ' ' . n
+				if ! buflisted(n)
+					let delete_count = delete_count+1
+				endif
+			endif
+		endif
+		let n = n+1
+	endwhile
+
+	if delete_count == 1
+		echomsg delete_count "buffer deleted"
+	elseif delete_count > 1
+		echomsg delete_count "buffers deleted"
+	endif
+endfunction
 
 call plug#end()
