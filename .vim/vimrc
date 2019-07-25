@@ -1,10 +1,6 @@
 " Change map leader to <Space>
 let mapleader=" "
 
-" Color scheme
-color hackerman
-set background=dark
-
 " Tab/Space
 set expandtab
 set tabstop=4
@@ -51,6 +47,7 @@ set undoreload=10000        " number of lines to save for undo
 set wildmenu " Turn on wildmenu
 set wrap
 set scrolloff=10
+set paste
 syntax enable
 
 " Mapping
@@ -62,13 +59,14 @@ nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
 vnoremap <Down> g<Down>
 vnoremap <Up> g<Up>
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>Q :qa!<CR>
-nnoremap <silent> <leader>w :bd<CR>
 nnoremap * *``
 
 call plug#begin('~/.vim/plugged')
@@ -114,6 +112,7 @@ Plug 'ap/vim-buftabline' " manage buffer the sane way
     nmap <leader>8 <Plug>BufTabLine.Go(8)
     nmap <leader>9 <Plug>BufTabLine.Go(9)
     nmap <leader>0 <Plug>BufTabLine.Go(10)
+    nnoremap <silent> <leader>w :MBEbd!<CR>
 Plug 'fholgado/minibufexpl.vim'
     nnoremap <silent> <F4> :MBEToggle<CR>
     let g:miniBufExplorerAutoStart = 0
@@ -326,3 +325,7 @@ function! CloseOtherBuffers(buffer, bang)
 endfunction
 
 call plug#end()
+
+" Color scheme
+set background=dark
+color gruvbox
