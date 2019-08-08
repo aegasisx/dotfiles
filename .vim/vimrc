@@ -7,9 +7,9 @@ set tabstop=4
 set shiftwidth=4
 set smarttab
 
-" Set list char
+" <leader>. show hidden character
 set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
-nnoremap <silent> <leader>l :set list!<CR>
+nnoremap <silent> <leader>. :set list!<CR>
 
 " Basic
 filetype indent on
@@ -47,7 +47,6 @@ set undoreload=10000        " number of lines to save for undo
 set wildmenu " Turn on wildmenu
 set wrap
 set scrolloff=10
-set paste
 syntax enable
 
 " Mapping
@@ -59,15 +58,27 @@ nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
 vnoremap <Down> g<Down>
 vnoremap <Up> g<Up>
+
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
+
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
+
 nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
+
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>Q :qa!<CR>
+
+nnoremap <nowait> <TAB> <C-w>w
 nnoremap * *``
+nnoremap <leader>gr :Search <cword><CR>
+vnoremap <leader>gr y:Search "<c-r>""<CR>
+nnoremap <leader>r :reg<CR>
+
+nnoremap <F8> :set invpaste paste?<CR>
+set pastetoggle=<F8>
 
 call plug#begin('~/.vim/plugged')
 
@@ -135,9 +146,9 @@ Plug 'itchyny/lightline.vim'
         \              [ 'fileformat', 'fileencoding', 'filetype' ]  ]
         \ },
         \ 'component_function': {
-        \   'fugitive': 'LightlineFugitive',
-        \   'indent':   'LightlineIndent',
-        \   'lineinfo': 'LightlineLineInfo'
+        \   'fugitive' : 'LightlineFugitive',
+        \   'indent'   : 'LightlineIndent',
+        \   'lineinfo' : 'LightlineLineInfo',
         \ }
         \ }
 
@@ -151,11 +162,11 @@ endfunction
 
 function! LightlineIndent()
     let et = &et ==# 1 ? "space" : "tab"
-    return (et . ':'. &tabstop . ' (' . &shiftwidth . ')' )
+    return (et . ':'. &tabstop)
 endfunction
 
 function! LightlineLineInfo()
-    return line('.') . ':' . col('.') . ' of ' . line('$')
+    return line('.') * 100 / line('$') . '%' . ' / ' . line('$')
 endfunction
 
 function! LightlineReload()
@@ -172,8 +183,8 @@ Plug 'brooth/far.vim' " Find and replace
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
     nnoremap <silent> <C-p> :Files<CR>
-    nnoremap <F1> :Commands<CR>
-    nnoremap <F3> :Search!<space>
+    nnoremap <F1> :Files<CR>
+    nnoremap <F3> :Search<space>
     nnoremap <space>b :Buffer<CR>
     nnoremap <space>m :Marks<CR>
 
@@ -185,12 +196,9 @@ Plug 'junegunn/fzf.vim'
         \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
         \                 <bang>0)
 
-    " :Agr - Take argument to specify directory
+    " :Search - Take argument to specify directory
     command! -bang -nargs=+ Search
-        \ call fzf#vim#ag_raw('--hidden ' .<q-args>,
-        \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-        \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-        \                 <bang>0)
+        \ call fzf#vim#ag_raw('--hidden ' .<q-args>, fzf#vim#with_preview('up:60%'), <bang>1)
 
     " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
     command! -bang -nargs=* Rg
@@ -213,10 +221,24 @@ Plug 'junegunn/fzf.vim'
 " Git Integrate
 "
 Plug 'tpope/vim-fugitive' " git
-    nnoremap <leader>g :Gstatus<CR><C-w>o
-Plug 'junegunn/gv.vim'
+    nnoremap <leader>gs :Gtabedit :<CR>
+    nnoremap <leader>gd :Gdiff<CR>
+    nnoremap <leader>gb :Gblame<CR>
+    nnoremap <leader>gc :Gcheckout<CR>
 Plug 'idanarye/vim-merginal' " git branch
+    nnoremap <leader>gm :Merginal<CR>
 Plug 'airblade/vim-gitgutter' " gitgutter
+Plug 'rbong/vim-flog' " git graph
+    nnoremap <leader>gg :Flog<CR>
+
+function! s:changebranch(branch)
+    execute 'Git checkout' . a:branch
+endfunction
+
+command! -bang Gcheckout call fzf#run({
+    \ 'source': 'git branch -a --no-color | grep -v "^\* " ',
+    \ 'sink': function('s:changebranch')
+    \ })
 
 "
 " Workspace manager
@@ -252,6 +274,10 @@ Plug 'tpope/vim-sleuth' " Smart indent
 Plug 'jiangmiao/auto-pairs' " Auto add closing bracket
 Plug 'tpope/vim-surround' " Add/change/delete quote, bracket & tag easily
 Plug 'junegunn/vim-easy-align'
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+    xmap ga <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap ga <Plug>(EasyAlign)
 Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
 Plug 'tpope/vim-eunuch' " Unix commnands in vim
 Plug 'AndrewRadev/splitjoin.vim' " gS split gJ join
@@ -268,7 +294,7 @@ Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
 Plug 'farmergreg/vim-lastplace'
 Plug 'yuttie/comfortable-motion.vim'
     let g:comfortable_motion_friction = 0.0
-    let g:comfortable_motion_air_drag = 4.5
+    let g:comfortable_motion_air_drag = 5.0
     nnoremap <leader>j :call comfortable_motion#flick(200)<CR>
     nnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
     vnoremap <leader>j :call comfortable_motion#flick(200)<CR>
@@ -328,4 +354,4 @@ call plug#end()
 
 " Color scheme
 set background=dark
-color gruvbox
+color hackerman
