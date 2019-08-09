@@ -14,24 +14,12 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" ✗"
 ZSH_THEME_GIT_PROMPT_CLEAN=" ✔︎"
 
 PROMPT="
-%{$fg[cyan]%}%n \
-%{$fg[white]%}at \
-%{$fg[green]%}$(box_name) \
-%{$fg[white]%}in \
+%{$terminfo[bold]$fg[cyan]%}%n \
+%{%{$reset_color%}$fg[white]%}at \
+%{$terminfo[bold]$fg[green]%}$(box_name) \
+%{%{$reset_color%}$fg[white]%}in \
 %{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%} \
 ${git_branch}
-%{$fg[red]%}%* \
+%{$terminfo[bold]$fg[red]%}%* \
 %{$terminfo[bold]$fg[white]%}› %{$reset_color%}"
 
-if [[ "$USER" == "root" ]]; then
-PROMPT="
-%{$fg[red]%}%* \
-%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
-%{$bg[yellow]%}%{$fg[cyan]%}%n%{$reset_color%} \
-%{$fg[white]%}at \
-%{$fg[green]%}$(box_name) \
-%{$fg[white]%}in \
-%{$terminfo[bold]$fg[yellow]%}[${current_dir}]%{$reset_color%}\
-${git_info}
-%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
-fi
