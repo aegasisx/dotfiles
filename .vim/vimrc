@@ -52,19 +52,16 @@ syntax enable
 " Mapping
 nnoremap j gj
 nnoremap k gk
-vnoremap j gj
-vnoremap k gk
 nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
+
+vnoremap j gj
+vnoremap k gk
 vnoremap <Down> g<Down>
 vnoremap <Up> g<Up>
 
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
-
-nnoremap <leader>d "_d
-xnoremap <leader>d "_d
-xnoremap <leader>p "_dP
 
 nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
 
@@ -183,7 +180,7 @@ Plug 'brooth/far.vim' " Find and replace
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
     nnoremap <silent> <C-p> :Files<CR>
-    nnoremap <F1> :Files<CR>
+    nnoremap <F1> :Commands<CR>
     nnoremap <F3> :Search<space>
     nnoremap <space>b :Buffer<CR>
     nnoremap <space>m :Marks<CR>
@@ -228,6 +225,7 @@ Plug 'tpope/vim-fugitive' " git
 Plug 'idanarye/vim-merginal' " git branch
     nnoremap <leader>gm :Merginal<CR>
 Plug 'airblade/vim-gitgutter' " gitgutter
+    nnoremap <Leader>hv <Plug>GitGutterPreviewHunk
 Plug 'rbong/vim-flog' " git graph
     nnoremap <leader>gg :Flog<CR>
 
