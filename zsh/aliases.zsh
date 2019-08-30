@@ -7,4 +7,4 @@ alias glga='git log --graph --pretty="%Cred%h%Creset - %Cgreen%cr%C(auto)%d%Cres
 alias ll='LC_COLLATE="C" ls -alh --group-directories-first'
 alias l='LC_COLLATE="C" ls -A --group-directories-first'
 alias path="sed 's/:/\n/g' <<< "$PATH""
-
+alias gfc='git-fuzzy-checkout'
