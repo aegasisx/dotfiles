@@ -225,7 +225,6 @@ Plug 'tpope/vim-fugitive' " git
 Plug 'idanarye/vim-merginal' " git branch
     nnoremap <leader>gm :Merginal<CR>
 Plug 'airblade/vim-gitgutter' " gitgutter
-    nnoremap <Leader>hv <Plug>GitGutterPreviewHunk
 Plug 'rbong/vim-flog' " git graph
     nnoremap <leader>gg :Flog<CR>
 
