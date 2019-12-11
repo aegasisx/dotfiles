@@ -6,5 +6,6 @@ fonts/.*
 .vim/tags/*
 .vim/.netrwhist
 tmux/local.tmux.conf
+zsh/cache/*
 
 !**.gitkeep

@@ -1,5 +1,9 @@
 # Dotfiles
 
+### Vim
+
+    ln -s ~/dotfiles/.vim ~/.vim
+
 ### Fonts:
 
     ln -s ~/dotfiles/fonts ~/.fonts
@@ -7,7 +11,7 @@
 ### Git:
 
     git config --global user.email "nambn.jpit@gmail.com"
-    git config --global user.name "nam"
+    git config --global user.name "nambn"
 
 ### Bash
 
@@ -22,24 +26,21 @@ Config .bashrc
 
 Install
 
-    sudo apt intall zsh
+    sudo apt install zsh
 
-Use my custom zsh
+Open .zshrc
 
-    mv ~/.zshrc ~/.zshrc_old
-    echo 'source ~/dotfiles/custom.zsh' >> ~/.zshrc
+    vim ~/.zshrc
 
-Auto start tmux (optional)
+Add these line
 
-    if [ "$TMUX" = "" ]; then tmux; fi
-
-Use custom theme in ~/dotfiles/zsh/themes
-
-    source ~/dotfiles/zsh/themes/xxf
+    source ~/dotfiles/custom.zsh
+    source ~/dotfiles/zsh/themes/xxf #theme=xxf,bira
+    #if [ "$TMUX" = "" ]; then tmux; fi #auto start tmux
 
 Set default shell (optional)
 
-    chsh -s /bin/zsh
+    chsh -s /bin/zsh <username>
 
 Source from zprofile (optional)
 
@@ -58,6 +59,14 @@ Source from zprofile (optional)
 
 ### Tmux
 
+Debian & Ubuntu
+
+    sudo apt install xsel # or xclip
+
+RedHat & CentOS
+
+    sudo yum install xsel # or xclip
+
 Install tmux plugin manager:
 
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -70,9 +79,9 @@ Create local custom file
 
     cp ~/dotfiles/tmux/example.local.tmux.conf ~/dotfiles/tmux/local.tmux.conf
 
-Install plugin:
+`tmux`, then install plugin:
 
-    C-b Shift-I
+    C-a Shift-I
 
 Reload tmux:
 
@@ -84,11 +93,37 @@ Add following line to .zshrc to auto startup
 
 Cheat sheet https://tmuxcheatsheet.com
 
-### Vim
+tmux-copycat
 
-    ln -s ~/dotfiles/.vim ~/.vim
+>prefix + / - regex search (strings work too)
+>
+>prefix + ctrl-f - simple file search
+>prefix + ctrl-g - jumping over git status files (best used after git status command)
+>prefix + alt-h - jumping over SHA-1/SHA-256 hashes (best used after git log command)
+>prefix + ctrl-u - url search (http, ftp and git urls)
+>prefix + ctrl-d - number search (mnemonic d, as digit)
+>prefix + alt-i - ip address search
+>These start "copycat mode" and jump to first match.
+>
+>"Copycat mode" bindings
+>These are enabled when you search with copycat:
+>
+>n - jumps to the next match
+>N - jumps to the previous match
+>To copy a highlighted match:
+>
+>Enter - if you're using Tmux vi mode
+>ctrl-w or alt-w - if you're using Tmux emacs mode
+>Copying a highlighted match will take you "out" of copycat mode. Paste with prefix + ] (this is Tmux >default paste).
 
-Plugin:
+laktak/extrakto
 
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
+>You can fuzzy find your text instead of selecting it by hand:
+>
+>press tmux prefix + tab to start extrakto
+>fuzzy find the text/path/url/line
+>press
+>tab to insert it to the current pane,
+>enter to copy it to the clipboard,
+>ctrl-o to open the path/url or
+>ctrl-e to edit with $EDITOR
