@@ -14,6 +14,7 @@ nnoremap <silent> <leader>. :set list!<CR>
 " Basic
 filetype indent on
 filetype plugin indent on " Indent helpers
+set showtabline=2
 let $FZF_DEFAULT_COMMAND='find -L -not -path "./.git/*"'
 let @/ = ""
 set autoread " automatic read file when changed outide vim
@@ -88,9 +89,6 @@ Plug 'scrooloose/nerdtree' " nerdtree
     nnoremap <silent> <F2> :NERDTreeToggle<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin' " git in nerdtree
     let g:NERDTreeShowIgnoredStatus = 1
-Plug 'ryanoasis/vim-devicons' " Icon
-    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-    let g:DevIconsEnableFoldersOpenClose = 1
 
 "
 " Tags management
@@ -106,20 +104,6 @@ Plug 'ervandew/supertab'
 "
 " Window Layout
 "
-Plug 'ap/vim-buftabline' " manage buffer the sane way
-    let g:buftabline_numbers = 2 " ordinal number
-    let g:buftabline_indicators = 1 " show [edited]
-    nmap <leader>1 <Plug>BufTabLine.Go(1)
-    nmap <leader>2 <Plug>BufTabLine.Go(2)
-    nmap <leader>3 <Plug>BufTabLine.Go(3)
-    nmap <leader>4 <Plug>BufTabLine.Go(4)
-    nmap <leader>5 <Plug>BufTabLine.Go(5)
-    nmap <leader>6 <Plug>BufTabLine.Go(6)
-    nmap <leader>7 <Plug>BufTabLine.Go(7)
-    nmap <leader>8 <Plug>BufTabLine.Go(8)
-    nmap <leader>9 <Plug>BufTabLine.Go(9)
-    nmap <leader>0 <Plug>BufTabLine.Go(10)
-    nnoremap <silent> <leader>w :MBEbd!<CR>
 Plug 'fholgado/minibufexpl.vim'
     nnoremap <silent> <F4> :MBEToggle<CR>
     let g:miniBufExplorerAutoStart = 0
@@ -288,13 +272,6 @@ Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
 " Utinity
 "
 Plug 'farmergreg/vim-lastplace'
-Plug 'yuttie/comfortable-motion.vim'
-    let g:comfortable_motion_friction = 0.0
-    let g:comfortable_motion_air_drag = 5.0
-    nnoremap <leader>j :call comfortable_motion#flick(200)<CR>
-    nnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
-    vnoremap <leader>j :call comfortable_motion#flick(200)<CR>
-    vnoremap <leader>k :call comfortable_motion#flick(-200)<CR>
 
 command! -nargs=? -complete=buffer -bang CloseOtherBuffers
     \ :call CloseOtherBuffers('<args>', '<bang>')
