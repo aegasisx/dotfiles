@@ -14,7 +14,6 @@ nnoremap <silent> <leader>. :set list!<CR>
 " Basic
 filetype indent on
 filetype plugin indent on " Indent helpers
-set showtabline=2
 let $FZF_DEFAULT_COMMAND='find -L -not -path "./.git/*"'
 let @/ = ""
 set autoread " automatic read file when changed outide vim
