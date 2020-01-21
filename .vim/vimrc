@@ -55,7 +55,7 @@ nnoremap k gk
 nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
 
-nnoremap <leader>t :tabnew
+nnoremap <leader>t :tabnew<CR>
 
 vnoremap j gj
 vnoremap k gk
