@@ -75,6 +75,8 @@ nnoremap <leader>gr :Search <cword><CR>
 vnoremap <leader>gr y:Search "<c-r>""<CR>
 nnoremap <leader>r :reg<CR>
 
+nnoremap <leader>w :bw<CR>
+
 nnoremap <F8> :set invpaste paste?<CR>
 set pastetoggle=<F8>
 
@@ -168,6 +170,7 @@ Plug 'junegunn/fzf.vim'
     nnoremap <F3> :Search<space>
     nnoremap <space>b :Buffer<CR>
     nnoremap <space>m :Marks<CR>
+    nnoremap <space>gl :Commits<CR>
 
     " :Ag  - Start fzf with hidden preview window that can be enabled with ? key
     " :Ag! - Start fzf in fullscreen and display the preview window above
