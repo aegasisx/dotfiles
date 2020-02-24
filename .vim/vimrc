@@ -1,15 +1,26 @@
 " Change map leader to <Space>
-let mapleader=" "
+let mapleader   = ' '
+let ignore_list = [
+    \ '.git',
+    \ '.idea',
+    \ '.vscode',
+    \ '*.min.css',
+    \ '*.min.js',
+    \ '*.vim/bundle/*',
+    \ 'build',
+    \ 'node_modules',
+    \ 'vendor',
+    \ ]
 
 " Tab/Space
-set expandtab
 set tabstop=4
 set shiftwidth=4
 set smarttab
+set expandtab
 
 " <leader>. show hidden character
 set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
-nnoremap <silent> <leader>. :set list!<CR>
+nnoremap <silent> <leader>l :set list!<CR>
 
 " Basic
 filetype indent on
@@ -53,9 +64,6 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> g<Down>
 nnoremap <Up> g<Up>
-
-nnoremap <leader>t :tabnew<CR>
-
 vnoremap j gj
 vnoremap k gk
 vnoremap <Down> g<Down>
@@ -87,18 +95,17 @@ call plug#begin('~/.vim/plugged')
 "
 Plug 'scrooloose/nerdtree' " nerdtree
     let NERDTreeShowHidden = 1 " Display hidden files
-    let NERDTreeMinimalUI=1 " Remove help at top
-    nnoremap <silent> <leader>e :NERDTreeFind<CR>
-    nnoremap <silent> <F2> :NERDTreeToggle<CR>
+    let NERDTreeMinimalUI  = 1 " Remove help at top
+    nnoremap <silent> <leader>f :call NERDTreeFindToggle()<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin' " git in nerdtree
     let g:NERDTreeShowIgnoredStatus = 1
 
 "
-" Tags management
+" Tags
 "
 Plug 'ludovicchabant/vim-gutentags'
     let g:gutentags_cache_dir = $HOME.'/.vim/tags'
-    let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*", ".idea", ".vscode"]
+    let g:gutentags_ctags_exclude = g:ignore_list
 Plug 'majutsushi/tagbar'
     let g:tagbar_compact = 1
     nmap <F6> :TagbarToggle<CR>
@@ -115,8 +122,6 @@ Plug 'fholgado/minibufexpl.vim'
     let g:miniBufExplCycleArround = 1
     let g:miniBufExplShowBufNumbers = 0
 Plug 'Yggdroot/indentLine' " Show indent line
-Plug 'kshenoy/vim-signature' " Manage Marks
-    nnoremap m; :SignatureToggle<CR>
 Plug 'itchyny/lightline.vim'
     command! LightlineReload call LightlineReload()
     let g:lightline = {
@@ -163,6 +168,8 @@ endfunction
 "
 Plug 'brooth/far.vim' " Find and replace
     let g:far#window_layout = 'current'
+    let g:far#source        = 'rg'
+    let g:far#ignore_files  = g:ignore_list
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
     nnoremap <silent> <C-p> :Files<CR>
@@ -332,3 +339,14 @@ call plug#end()
 " Color scheme
 set background=dark
 color gruvbox
+
+function! NERDTreeFindToggle()
+    if exists("g:NERDTree") && g:NERDTree.IsOpen()
+        NERDTreeClose
+    elseif filereadable(expand('%'))
+        NERDTreeFind
+    else
+        NERDTree
+    endif
+endfunction
+
