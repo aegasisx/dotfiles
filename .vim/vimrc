@@ -59,14 +59,6 @@ set wrap
 syntax enable
 
 " Mapping
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> g<Down>
-nnoremap <Up> g<Up>
-vnoremap j gj
-vnoremap k gk
-vnoremap <Down> g<Down>
-vnoremap <Up> g<Up>
 
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
@@ -163,6 +155,21 @@ function! LightlineReload()
 endfunction
 
 "
+" Moving around
+"
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> g<Down>
+nnoremap <Up> g<Up>
+vnoremap j gj
+vnoremap k gk
+vnoremap <Down> g<Down>
+vnoremap <Up> g<Up>
+Plug 'terryma/vim-smooth-scroll'
+nnoremap <C-j> :call smooth_scroll#down(&scroll, 0, 1)<CR>
+nnoremap <C-k> :call smooth_scroll#up(&scroll, 0, 1)<CR>
+
+"
 " Find and Replace
 "
 Plug 'brooth/far.vim' " Find and replace
@@ -202,13 +209,12 @@ Plug 'junegunn/fzf.vim'
         execute '!git checkout ' . l:branch
     endfunction
 
-    command! -bang -nargs=0 GCheckout
-        \ call fzf#run(
-        \   {
+    command! GCheckout
+        \ call fzf#run({
         \     'source': 'git branch -v',
         \     'sink': function('s:open_branch_fzf'),
         \     'left': '40%'
-        \   })
+        \ })
 
     let rg_option = 'rg
         \ --with-filename
