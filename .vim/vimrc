@@ -1,16 +1,16 @@
 " Change map leader to <Space>
 let mapleader   = ' '
 let ignore_list = [
-    \ '.git/*',
-    \ '.idea/*',
-    \ '.vscode/*',
-    \ '*.min.css',
-    \ '*.min.js',
-    \ '*.vim/bundle/*',
-    \ 'build/*',
-    \ 'node_modules/*',
-    \ 'vendor/*',
-    \ ]
+            \ '.git/*',
+            \ '.idea/*',
+            \ '.vscode/*',
+            \ '*.min.css',
+            \ '*.min.js',
+            \ '*.vim/bundle/*',
+            \ 'build/*',
+            \ 'node_modules/*',
+            \ 'vendor/*',
+            \ ]
 
 " Tab/Space
 set tabstop=4
@@ -63,18 +63,11 @@ syntax enable
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
 
-nnoremap <leader>n :nohlsearch<CR> " turn off search highlight
-
-nnoremap <silent> <leader>q :q<CR>
-nnoremap <silent> <leader>Q :qa!<CR>
-
-nnoremap <nowait> <TAB> <C-w>w
+nnoremap <nowait> <leader><TAB> <C-w>w
 nnoremap * *``
-nnoremap <leader>gr :Search <cword><CR>
-vnoremap <leader>gr y:Search "<c-r>""<CR>
+nnoremap <leader>gr :Rg <cword><CR>
+vnoremap <leader>gr y:Rg "<c-r>""<CR>
 nnoremap <leader>r :reg<CR>
-
-nnoremap <leader>w :bw<CR>
 
 nnoremap <F8> :set invpaste paste?<CR>
 set pastetoggle=<F8>
@@ -85,51 +78,278 @@ call plug#begin('~/.vim/plugged')
 " File Browser
 "
 Plug 'scrooloose/nerdtree' " nerdtree
-    let NERDTreeShowHidden = 1 " Display hidden files
-    let NERDTreeMinimalUI  = 1 " Remove help at top
-    nnoremap <silent> <leader>f :call NERDTreeFindToggle()<CR>
+let NERDTreeShowHidden = 1 " Display hidden files
+let NERDTreeMinimalUI  = 1 " Remove help at top
+nnoremap <silent> <leader>f :call NERDTreeFindToggle()<CR>
 Plug 'Xuyuanp/nerdtree-git-plugin' " git in nerdtree
-    let g:NERDTreeShowIgnoredStatus = 1
+let g:NERDTreeShowIgnoredStatus = 1
 
 "
 " Tags
 "
 Plug 'ludovicchabant/vim-gutentags'
-    let g:gutentags_cache_dir = $HOME.'/.vim/tags'
-    let g:gutentags_ctags_exclude = g:ignore_list
+let g:gutentags_cache_dir = $HOME.'/.vim/tags'
+let g:gutentags_ctags_exclude = g:ignore_list
 Plug 'majutsushi/tagbar'
-    let g:tagbar_compact = 1
-    nmap <F6> :TagbarToggle<CR>
+let g:tagbar_compact = 1
+nnoremap <leader>t :TagbarToggle<CR>
 Plug 'ervandew/supertab'
 
 "
 " Window Layout
 "
+nnoremap <silent> <leader>q :q<CR>
+nnoremap <silent> <leader>Q :qa!<CR>
+nnoremap <silent> <leader>w :bw<CR>
 Plug 'fholgado/minibufexpl.vim'
-    nnoremap <silent> <F4> :MBEToggle<CR>
-    let g:miniBufExplorerAutoStart = 0
-    let g:miniBufExplUseSingleClick = 1
-    let g:miniBufExplBuffersNeeded = 1
-    let g:miniBufExplCycleArround = 1
-    let g:miniBufExplShowBufNumbers = 0
+nnoremap <silent> <F4> :MBEToggle<CR>
+let g:miniBufExplorerAutoStart = 0
+let g:miniBufExplUseSingleClick = 1
+let g:miniBufExplBuffersNeeded = 1
+let g:miniBufExplCycleArround = 1
+let g:miniBufExplShowBufNumbers = 0
 Plug 'Yggdroot/indentLine' " Show indent line
 Plug 'itchyny/lightline.vim'
-    command! LightlineReload call LightlineReload()
-    let g:lightline = {
-        \ 'colorscheme': 'powerline',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'readonly', 'fugitive', 'filename', 'modified' ] ],
-        \   'right': [ [ 'lineinfo' ],
-        \              [ 'indent' ],
-        \              [ 'fileformat', 'fileencoding', 'filetype' ]  ]
-        \ },
-        \ 'component_function': {
-        \   'fugitive' : 'LightlineFugitive',
-        \   'indent'   : 'LightlineIndent',
-        \   'lineinfo' : 'LightlineLineInfo',
-        \ }
-        \ }
+command! LightlineReload call LightlineReload()
+let g:lightline = {
+            \     'colorscheme': 'powerline',
+            \     'active': {
+            \       'left': [ [ 'mode', 'paste' ],
+            \                 [ 'readonly', 'fugitive', 'filename', 'modified' ] ],
+            \       'right': [ [ 'lineinfo' ],
+            \                  [ 'indent' ],
+            \                  [ 'fileformat', 'fileencoding', 'filetype' ]  ]
+            \     },
+            \     'component_function': {
+            \       'fugitive' : 'LightlineFugitive',
+            \       'indent'   : 'LightlineIndent',
+            \       'lineinfo' : 'LightlineLineInfo',
+            \     }
+            \ }
+
+"
+" Moving around
+"
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> g<Down>
+nnoremap <Up> g<Up>
+vnoremap j gj
+vnoremap k gk
+vnoremap <Down> g<Down>
+vnoremap <Up> g<Up>
+Plug 'terryma/vim-smooth-scroll'
+nnoremap <C-j> :call smooth_scroll#down(&scroll, 0, 1)<CR>
+nnoremap <C-k> :call smooth_scroll#up(&scroll, 0, 1)<CR>
+
+"
+" Find and Replace
+"
+nnoremap <leader>n :nohlsearch<CR> "turn off search highlight
+Plug 'brooth/far.vim' " Find and replace
+let g:far#window_layout = 'current'
+let g:far#source        = 'rg'
+let g:far#ignore_files  = g:ignore_list
+Plug 'junegunn/fzf'
+let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --ignore-case --glob="!{' . join( g:ignore_list, "," ) .'}"'
+Plug 'junegunn/fzf.vim'
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <C-g> :Rg<CR>
+nnoremap <silent> <C-f> :BLines<CR>
+nnoremap <TAB> :VertBuffer<CR>
+nnoremap <leader>m :Marks<CR>
+nnoremap <leader>gl :BCommits<CR>
+nnoremap <leader>gf :GFiles?<CR>
+nnoremap <leader>gc :GCheckout<CR>
+nnoremap <F1> :Commands<CR>
+
+" Mapping selecting mappings
+nmap <F2> <plug>(fzf-maps-n)
+xmap <F2> <plug>(fzf-maps-x)
+omap <F2> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+function! s:open_branch_fzf(line)
+    let l:parser = split(a:line)
+    let l:branch = l:parser[0]
+    if l:branch ==? '*'
+        let l:branch = l:parser[1]
+    endif
+    execute '!git checkout ' . l:branch
+endfunction
+
+command! GCheckout
+            \ call fzf#run({
+            \     'source': 'git branch -v',
+            \     'sink': function('s:open_branch_fzf'),
+            \     'left': '40%'
+            \ })
+
+command VertBuffer
+            \ call fzf#vim#buffers( {
+            \     'left': '30%',
+            \ }, <bang>0)
+
+let rg_option = 'rg
+            \ --with-filename
+            \ --no-heading
+            \ --line-number
+            \ --fixed-strings
+            \ --ignore-case
+            \ --no-ignore
+            \ --hidden
+            \ --follow
+            \ --max-columns=150
+            \ --glob="!{' . join( g:ignore_list, "," ) .'}"
+            \ --color="always"
+            \ --colors="path:fg:green"
+            \ --colors="path:style:bold"
+            \ --colors="line:fg:yellow"
+            \ --colors="line:style:bold"
+            \ '
+
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   g:rg_option . ' ' . shellescape(<q-args>), 1,
+            \   fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+
+" :Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+"
+" Git Integrate
+"
+Plug 'tpope/vim-fugitive' " git
+nnoremap <leader>gs :vertical Gstatus<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
+Plug 'idanarye/vim-merginal' " git branch
+nnoremap <leader>gm :Merginal<CR>
+Plug 'airblade/vim-gitgutter' " gitgutter
+Plug 'rbong/vim-flog' " git graph
+nnoremap <leader>gg :Flog<CR>
+
+"
+" Workspace manager
+"
+Plug 'mhinz/vim-startify' " start screen, create workspace with :SS
+let g:startify_custom_header = [] " Remove cowsay
+let g:startify_session_persistence = 1
+let g:startify_lists = [
+            \ { 'type': 'sessions',  'header': ['   Sessions']        },
+            \ { 'type': 'files',     'header': ['   MRU']             },
+            \ { 'type': 'dir',       'header': ['   MRU '. getcwd()]  },
+            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']       },
+            \ { 'type': 'commands',  'header': ['   Commands']        },
+            \ ]
+Plug '907th/vim-auto-save' " Auto save
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_silent = 1  " do not display the auto-save notification
+Plug 'editorconfig/editorconfig-vim' " .editorconfig
+
+"
+" Languages
+"
+Plug 'sheerun/vim-polyglot'
+
+"
+" 'I dont know what this is but seem important'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
+"
+" Tools
+"
+Plug 'tpope/vim-sleuth' " Smart indent
+Plug 'jiangmiao/auto-pairs' " Auto add closing bracket
+Plug 'tpope/vim-surround' " Add/change/delete quote, bracket & tag easily
+Plug 'junegunn/vim-easy-align'
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
+Plug 'tpope/vim-eunuch' " Unix commnands in vim
+Plug 'AndrewRadev/splitjoin.vim' " gS split gJ join
+Plug 'easymotion/vim-easymotion' " jump cussor around
+Plug 'tpope/vim-unimpaired' " Next and previous
+Plug 'tpope/vim-repeat' " . work with vim-surround
+Plug 'wellle/targets.vim' " delete/change next \' \" \, \{ \].....
+Plug 'kana/vim-textobj-user' " Julian/vim-textobj-variable-segment dependecy
+Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
+
+"
+" Utinity
+"
+Plug 'farmergreg/vim-lastplace'
+
+call plug#end()
+
+command! -nargs=? -complete=buffer -bang CloseOtherBuffers
+            \ :call CloseOtherBuffers('<args>', '<bang>')
+
+function! CloseOtherBuffers(buffer, bang)
+    if a:buffer == ''
+        " No buffer provided, use the current buffer.
+        let buffer = bufnr('%')
+    elseif (a:buffer + 0) > 0
+        " A buffer number was provided.
+        let buffer = bufnr(a:buffer + 0)
+    else
+        " A buffer name was provided.
+        let buffer = bufnr(a:buffer)
+    endif
+
+    if buffer == -1
+        echohl ErrorMsg
+        echomsg "No matching buffer for" a:buffer
+        echohl None
+        return
+    endif
+
+    let last_buffer = bufnr('$')
+
+    let delete_count = 0
+    let n = 1
+    while n <= last_buffer
+        if n != buffer && buflisted(n)
+            if a:bang == '' && getbufvar(n, '&modified')
+                echohl ErrorMsg
+                echomsg 'No write since last change for buffer'
+                            \ n '(add ! to override)'
+                echohl None
+            else
+                silent exe 'bdel' . a:bang . ' ' . n
+                if ! buflisted(n)
+                    let delete_count = delete_count+1
+                endif
+            endif
+        endif
+        let n = n+1
+    endwhile
+
+    if delete_count == 1
+        echomsg delete_count "buffer deleted"
+    elseif delete_count > 1
+        echomsg delete_count "buffers deleted"
+    endif
+endfunction
+
+function! NERDTreeFindToggle()
+    if exists("g:NERDTree") && g:NERDTree.IsOpen()
+        NERDTreeClose
+    elseif filereadable(expand('%'))
+        NERDTreeFind
+    else
+        NERDTree
+    endif
+endfunction
 
 function! LightlineFugitive()
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
@@ -155,224 +375,8 @@ function! LightlineReload()
 endfunction
 
 "
-" Moving around
-"
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> g<Down>
-nnoremap <Up> g<Up>
-vnoremap j gj
-vnoremap k gk
-vnoremap <Down> g<Down>
-vnoremap <Up> g<Up>
-Plug 'terryma/vim-smooth-scroll'
-nnoremap <C-j> :call smooth_scroll#down(&scroll, 0, 1)<CR>
-nnoremap <C-k> :call smooth_scroll#up(&scroll, 0, 1)<CR>
-
-"
-" Find and Replace
-"
-Plug 'brooth/far.vim' " Find and replace
-    let g:far#window_layout = 'current'
-    let g:far#source        = 'rg'
-    let g:far#ignore_files  = g:ignore_list
-Plug 'junegunn/fzf'
-    let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --ignore-case --glob="!{' . join( g:ignore_list, "," ) .'}"'
-Plug 'junegunn/fzf.vim'
-    nnoremap <silent> <C-p> :Files<CR>
-    nnoremap <silent> <C-g> :Rg<CR>
-    nnoremap <silent> <C-f> :BLines<CR>
-    nnoremap <F1> :Commands<CR>
-    nnoremap <space>b :Buffer<CR>
-    nnoremap <space>m :Marks<CR>
-    nnoremap <space>gl :BCommits<CR>
-    nnoremap <space>gf :GFiles?<CR>
-    nnoremap <leader>gc :GCheckout<CR>
-
-    " Mapping selecting mappings
-    nmap <leader><tab> <plug>(fzf-maps-n)
-    xmap <leader><tab> <plug>(fzf-maps-x)
-    omap <leader><tab> <plug>(fzf-maps-o)
-
-    " Insert mode completion
-    imap <c-x><c-k> <plug>(fzf-complete-word)
-    imap <c-x><c-f> <plug>(fzf-complete-path)
-    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-    imap <c-x><c-l> <plug>(fzf-complete-line)
-
-    function! s:open_branch_fzf(line)
-        let l:parser = split(a:line)
-        let l:branch = l:parser[0]
-        if l:branch ==? '*'
-            let l:branch = l:parser[1]
-        endif
-        execute '!git checkout ' . l:branch
-    endfunction
-
-    command! GCheckout
-        \ call fzf#run({
-        \     'source': 'git branch -v',
-        \     'sink': function('s:open_branch_fzf'),
-        \     'left': '40%'
-        \ })
-
-    let rg_option = 'rg
-        \ --with-filename
-        \ --no-heading
-        \ --line-number
-        \ --fixed-strings
-        \ --ignore-case
-        \ --no-ignore
-        \ --hidden
-        \ --follow
-        \ --max-columns=150
-        \ --glob="!{' . join( g:ignore_list, "," ) .'}"
-        \ --color="always"
-        \ --colors="path:fg:green"
-        \ --colors="path:style:bold"
-        \ --colors="line:fg:yellow"
-        \ --colors="line:style:bold"
-        \ '
-
-    command! -bang -nargs=* Rg
-        \ call fzf#vim#grep(
-        \   g:rg_option . ' ' . shellescape(<q-args>), 1,
-        \   fzf#vim#with_preview('right:50%:hidden', '?'),
-        \   <bang>0)
-
-    " :Files command with preview window
-    command! -bang -nargs=? -complete=dir Files
-        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-"
-" Git Integrate
-"
-Plug 'tpope/vim-fugitive' " git
-    nnoremap <leader>gs :vertical Gstatus<CR>
-    nnoremap <leader>gd :Gdiff<CR>
-    nnoremap <leader>gb :Gblame<CR>
-Plug 'idanarye/vim-merginal' " git branch
-    nnoremap <leader>gm :Merginal<CR>
-Plug 'airblade/vim-gitgutter' " gitgutter
-Plug 'rbong/vim-flog' " git graph
-    nnoremap <leader>gg :Flog<CR>
-
-"
-" Workspace manager
-"
-Plug 'mhinz/vim-startify' " start screen, create workspace with :SS
-    let g:startify_custom_header = [] " Remove cowsay
-    let g:startify_session_persistence = 1
-    let g:startify_lists = [
-      \ { 'type': 'sessions',  'header': ['   Sessions']        },
-      \ { 'type': 'files',     'header': ['   MRU']             },
-      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()]  },
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']       },
-      \ { 'type': 'commands',  'header': ['   Commands']        },
-      \ ]
-Plug '907th/vim-auto-save' " Auto save
-    let g:auto_save = 1  " enable AutoSave on Vim startup
-    let g:auto_save_silent = 1  " do not display the auto-save notification
-Plug 'editorconfig/editorconfig-vim' " .editorconfig
-
-"
-" Languages
-"
-Plug 'sheerun/vim-polyglot'
-
-"
-" 'I dont know what this is but seem important'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-
-"
-" Tools
-"
-Plug 'tpope/vim-sleuth' " Smart indent
-Plug 'jiangmiao/auto-pairs' " Auto add closing bracket
-Plug 'tpope/vim-surround' " Add/change/delete quote, bracket & tag easily
-Plug 'junegunn/vim-easy-align'
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
-    xmap ga <Plug>(EasyAlign)
-    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-    nmap ga <Plug>(EasyAlign)
-Plug 'scrooloose/nerdcommenter' " <leader>c<space> to toggle comments
-Plug 'tpope/vim-eunuch' " Unix commnands in vim
-Plug 'AndrewRadev/splitjoin.vim' " gS split gJ join
-Plug 'easymotion/vim-easymotion' " jump cussor around
-Plug 'tpope/vim-unimpaired' " Next and previous
-Plug 'tpope/vim-repeat' " . work with vim-surround
-Plug 'wellle/targets.vim' " delete/change next \' \" \, \{ \].....
-Plug 'kana/vim-textobj-user' " Julian/vim-textobj-variable-segment dependecy
-Plug 'Julian/vim-textobj-variable-segment' " civ select snake_case
-
-"
-" Utinity
-"
-Plug 'farmergreg/vim-lastplace'
-
-command! -nargs=? -complete=buffer -bang CloseOtherBuffers
-    \ :call CloseOtherBuffers('<args>', '<bang>')
-
-function! CloseOtherBuffers(buffer, bang)
-	if a:buffer == ''
-		" No buffer provided, use the current buffer.
-		let buffer = bufnr('%')
-	elseif (a:buffer + 0) > 0
-		" A buffer number was provided.
-		let buffer = bufnr(a:buffer + 0)
-	else
-		" A buffer name was provided.
-		let buffer = bufnr(a:buffer)
-	endif
-
-	if buffer == -1
-		echohl ErrorMsg
-		echomsg "No matching buffer for" a:buffer
-		echohl None
-		return
-	endif
-
-	let last_buffer = bufnr('$')
-
-	let delete_count = 0
-	let n = 1
-	while n <= last_buffer
-		if n != buffer && buflisted(n)
-			if a:bang == '' && getbufvar(n, '&modified')
-				echohl ErrorMsg
-				echomsg 'No write since last change for buffer'
-							\ n '(add ! to override)'
-				echohl None
-			else
-				silent exe 'bdel' . a:bang . ' ' . n
-				if ! buflisted(n)
-					let delete_count = delete_count+1
-				endif
-			endif
-		endif
-		let n = n+1
-	endwhile
-
-	if delete_count == 1
-		echomsg delete_count "buffer deleted"
-	elseif delete_count > 1
-		echomsg delete_count "buffers deleted"
-	endif
-endfunction
-
-call plug#end()
-
 " Color scheme
+"
 set background=dark
 color gruvbox
-
-function! NERDTreeFindToggle()
-    if exists("g:NERDTree") && g:NERDTree.IsOpen()
-        NERDTreeClose
-    elseif filereadable(expand('%'))
-        NERDTreeFind
-    else
-        NERDTree
-    endif
-endfunction
 
