@@ -1,16 +1,52 @@
 " Change map leader to <Space>
 let mapleader   = ' '
 let ignore_list = [
-            \ '.git/*',
-            \ '.idea/*',
-            \ '.vscode/*',
-            \ '*.min.css',
-            \ '*.min.js',
-            \ '*.vim/bundle/*',
-            \ 'build/*',
-            \ 'node_modules/*',
-            \ 'vendor/*',
-            \ ]
+			\ '*.git', '*.svg', '*.hg',
+			\ '*/tests/*',
+			\ 'build',
+			\ 'dist',
+			\ '*sites/*/files/*',
+			\ 'bin',
+			\ 'node_modules',
+			\ 'bower_components',
+			\ 'cache',
+			\ 'compiled',
+			\ 'docs',
+			\ 'example',
+			\ 'bundle',
+			\ 'vendor',
+			\ '*.md',
+			\ '*-lock.json',
+			\ '*.lock',
+			\ '*bundle*.js',
+			\ '*build*.js',
+			\ '.*rc*',
+			\ '*.json',
+			\ '*.min.*',
+			\ '*.map',
+			\ '*.bak',
+			\ '*.zip',
+			\ '*.pyc',
+			\ '*.class',
+			\ '*.sln',
+			\ '*.Master',
+			\ '*.csproj',
+			\ '*.tmp',
+			\ '*.csproj.user',
+			\ '*.cache',
+			\ '*.pdb',
+			\ 'tags*',
+			\ 'cscope.*',
+			\ '*.css',
+			\ '*.less',
+			\ '*.scss',
+			\ '*.exe', '*.dll',
+			\ '*.mp3', '*.ogg', '*.flac',
+			\ '*.swp', '*.swo',
+			\ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+			\ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+			\ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+			\ ]
 
 " Tab/Space
 set tabstop=4
@@ -65,8 +101,6 @@ inoremap <c-w> <c-g>u<c-w>
 
 nnoremap <nowait> <leader><TAB> <C-w>w
 nnoremap * *``
-nnoremap <leader>gr :Rg <cword><CR>
-vnoremap <leader>gr y:Rg "<c-r>""<CR>
 nnoremap <leader>r :reg<CR>
 
 nnoremap <F8> :set invpaste paste?<CR>
@@ -145,7 +179,7 @@ nnoremap <C-k> :call smooth_scroll#up(&scroll, 0, 1)<CR>
 "
 " Find and Replace
 "
-nnoremap <leader>n :nohlsearch<CR> "turn off search highlight
+nnoremap <leader>n :nohlsearch<CR>
 Plug 'brooth/far.vim' " Find and replace
 let g:far#window_layout = 'current'
 let g:far#source        = 'rg'
@@ -153,10 +187,12 @@ let g:far#ignore_files  = g:ignore_list
 Plug 'junegunn/fzf'
 let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --ignore-case --glob="!{' . join( g:ignore_list, "," ) .'}"'
 Plug 'junegunn/fzf.vim'
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <C-g> :Rg<CR>
-nnoremap <silent> <C-f> :BLines<CR>
-nnoremap <TAB> :VertBuffer<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <C-g> :Rg<Space>
+nnoremap <leader>* yiw:Rg <C-r>"<CR>
+vnoremap <leader>* y:Rg <c-r>"<CR>
+nnoremap <C-f> :BLines<CR>
+nnoremap <TAB> :Buffers<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>gl :BCommits<CR>
 nnoremap <leader>gf :GFiles?<CR>
@@ -167,12 +203,6 @@ nnoremap <F1> :Commands<CR>
 nmap <F2> <plug>(fzf-maps-n)
 xmap <F2> <plug>(fzf-maps-x)
 omap <F2> <plug>(fzf-maps-o)
-
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 function! s:open_branch_fzf(line)
     let l:parser = split(a:line)
@@ -187,13 +217,8 @@ command! GCheckout
             \ call fzf#run({
             \     'source': 'git branch -v',
             \     'sink': function('s:open_branch_fzf'),
-            \     'left': '40%'
+            \     'down': '40%'
             \ })
-
-command VertBuffer
-            \ call fzf#vim#buffers( {
-            \     'left': '30%',
-            \ }, <bang>0)
 
 let rg_option = 'rg
             \ --with-filename
@@ -216,7 +241,7 @@ let rg_option = 'rg
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   g:rg_option . ' ' . shellescape(<q-args>), 1,
-            \   fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
             \   <bang>0)
 
 " :Files command with preview window
