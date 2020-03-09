@@ -134,9 +134,11 @@ Plug 'ervandew/supertab'
 "
 nnoremap <silent> <leader>q :q<CR>
 nnoremap <silent> <leader>Q :qa!<CR>
-nnoremap <silent> <leader>w :bw<CR>
 Plug 'fholgado/minibufexpl.vim'
-nnoremap <silent> <F4> :MBEToggle<CR>
+nnoremap <silent> <F4> :MBEToggleMRUAll<CR>
+nnoremap <silent> <C-h> :MBEbf<CR>
+nnoremap <silent> <C-l> :MBEbb<CR>
+nnoremap <silent> <leader>w :MBEbd<CR>
 let g:miniBufExplorerAutoStart = 0
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplBuffersNeeded = 1
